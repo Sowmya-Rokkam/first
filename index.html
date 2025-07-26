@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #3f728c;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .video-poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .video-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .play-button:hover {
+            background: white;
+            width: 85px;
+            height: 85px;
+        }
+
+        .play-button::before {
+            content: "";
+            border-style: solid;
+            border-width: 15px 0 15px 25px;
+            border-color: transparent transparent transparent #333;
+            margin-left: 5px;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        #videoPlayer{
+            background-color: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container">
+            <video id="videoPlayer" controls>
+                <source src="video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-poster">
+                <img src="https://placehold.co/800x450" alt="Big Buck Bunny animated film thumbnail - cartoon rabbit in nature setting" />
+                <button class="play-button" id="playButton"></button>
+            </div>
+        </div>
+        <div class="content">
+            <h1>There is something Here</h1>
+            <p>Click the play button above to see the video.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const playButton = document.getElementById('playButton');
+            const videoPoster = document.querySelector('.video-poster');
+
+            playButton.addEventListener('click', function() {
+                // Hide poster and show video
+                videoPoster.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                
+                // Play the video
+                videoPlayer.play();
+                
+                // Add loading state
+                videoPlayer.addEventListener('waiting', function() {
+                    showLoader();
+                });
+                
+                videoPlayer.addEventListener('canplay', function() {
+                    hideLoader();
+                });
+            });
+
+            function showLoader() {
+                // Implement a loading spinner if needed
+            }
+
+            function hideLoader() {
+                // Hide loading spinner when video is ready
+            }
+
+            // Optionally reset player when video ends
+            videoPlayer.addEventListener('ended', function() {
+                videoPlayer.style.display = 'none';
+                videoPoster.style.display = 'flex';
+            });
+        });
+    </script>
+</body>
+</html>
